@@ -1,0 +1,65 @@
+{
+  "key": "-0.97306_116.70861_500ac",
+  "lat": -0.9730559,
+  "lon": 116.7086111,
+  "acres": 500.0,
+  "images": {
+    "5y": "5y_2021-10-24.png",
+    "now": "now_2026-10-18.png"
+  },
+  "land_cover_pct": {
+    "5y": {
+      "Background": 53.79,
+      "Building": 0.15,
+      "Road": 0.1,
+      "Water": 41.88,
+      "Barren": 3.9,
+      "Forest": 0.18,
+      "Agriculture": 0.0
+    },
+    "now": {
+      "Background": 65.04,
+      "Building": 0.56,
+      "Road": 3.29,
+      "Water": 14.78,
+      "Barren": 16.15,
+      "Forest": 0.0,
+      "Agriculture": 0.17
+    }
+  },
+  "mean_confidence": {
+    "5y": 0.686,
+    "now": 0.712
+  },
+  "changes": {
+    "5y_to_now": {
+      "changed_pct": 45.911,
+      "forest_loss_pct": 0.037,
+      "forest_gain_pct": 0.0,
+      "top_transitions": [
+        [
+          "Water -> Background",
+          21.544
+        ],
+        [
+          "Background -> Water",
+          7.15
+        ],
+        [
+          "Water -> Barren",
+          7.044
+        ],
+        [
+          "Background -> Barren",
+          5.664
+        ],
+        [
+          "Background -> Road",
+          1.407
+        ]
+      ],
+      "severity": "Severe Change"
+    }
+  },
+  "note": "Super-resolved imagery is AI-inferred; the land-cover model was trained on 0.3 m aerial imagery (LoveDA), so percentages are rough estimates."
+}
