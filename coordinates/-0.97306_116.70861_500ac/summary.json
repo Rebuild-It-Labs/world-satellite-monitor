@@ -9,53 +9,53 @@
   },
   "land_cover_pct": {
     "5y": {
-      "Background": 53.79,
-      "Building": 0.15,
-      "Road": 0.1,
-      "Water": 41.88,
-      "Barren": 3.9,
-      "Forest": 0.18,
+      "Background": 53.45,
+      "Building": 0.14,
+      "Road": 0.08,
+      "Water": 41.02,
+      "Barren": 4.97,
+      "Forest": 0.34,
       "Agriculture": 0.0
     },
     "now": {
-      "Background": 65.04,
-      "Building": 0.56,
-      "Road": 3.29,
-      "Water": 14.78,
-      "Barren": 16.15,
+      "Background": 64.23,
+      "Building": 0.44,
+      "Road": 3.21,
+      "Water": 15.7,
+      "Barren": 15.94,
       "Forest": 0.0,
-      "Agriculture": 0.17
+      "Agriculture": 0.49
     }
   },
   "mean_confidence": {
-    "5y": 0.686,
-    "now": 0.712
+    "5y": 0.687,
+    "now": 0.711
   },
   "changes": {
     "5y_to_now": {
-      "changed_pct": 45.911,
-      "forest_loss_pct": 0.037,
+      "changed_pct": 46.348,
+      "forest_loss_pct": 0.171,
       "forest_gain_pct": 0.0,
       "top_transitions": [
         [
           "Water -> Background",
-          21.544
-        ],
-        [
-          "Background -> Water",
-          7.15
+          20.75
         ],
         [
           "Water -> Barren",
-          7.044
+          7.003
+        ],
+        [
+          "Background -> Water",
+          6.984
         ],
         [
           "Background -> Barren",
-          5.664
+          6.293
         ],
         [
           "Background -> Road",
-          1.407
+          1.585
         ]
       ],
       "severity": "Severe Change"
