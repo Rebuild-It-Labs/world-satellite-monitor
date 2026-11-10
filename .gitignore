@@ -9,3 +9,11 @@ frontend/dist
 __pycache__/
 *.py[cod]
 .ipynb_checkpoints/
+ViTune_Multi_Model.py
+/docs
+/figures
+/output_paper
+/paper_testing
+/tests
+/tables
+project.json
