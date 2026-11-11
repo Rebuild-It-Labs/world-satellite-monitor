@@ -21,7 +21,7 @@ const THEME_LORE = {
     badge: "QUEENS VIGIL",
   },
   "beauty-beast": {
-    quote: "Certain as the sun rising in the east — tale as old as time.",
+    quote: "Certain as the sun rising in the east - tale as old as time.",
     badge: "ENCHANTED ROSE",
   },
   "money-heist": {

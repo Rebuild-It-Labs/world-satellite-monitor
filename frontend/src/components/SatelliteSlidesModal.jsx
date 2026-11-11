@@ -804,14 +804,38 @@ const slides = [
         <Table
           head={["Class", "IoU", "F1", "Area MAE (pts)", "Assessment"]}
           rows={[
-            { c: ["Water", "0.789", "0.882", "0.782 pts", "Peak fidelity"], hl: true },
-            { c: ["Agriculture", "0.780", "0.876", "2.965 pts", "High fidelity"], hl: true },
-            { c: ["Forest", "0.743", "0.852", "2.675 pts", "High fidelity"], hl: true },
+            {
+              c: ["Water", "0.789", "0.882", "0.782 pts", "Peak fidelity"],
+              hl: true,
+            },
+            {
+              c: [
+                "Agriculture",
+                "0.780",
+                "0.876",
+                "2.965 pts",
+                "High fidelity",
+              ],
+              hl: true,
+            },
+            {
+              c: ["Forest", "0.743", "0.852", "2.675 pts", "High fidelity"],
+              hl: true,
+            },
             { c: ["Road", "0.654", "0.791", "1.090 pts", "Nominal"] },
             { c: ["Background", "0.622", "0.767", "6.582 pts", "Nominal"] },
             { c: ["Building", "0.602", "0.751", "1.784 pts", "Nominal"] },
             { c: ["Barren", "0.545", "0.706", "2.203 pts", "Nominal"] },
-            { hl: true, c: ["Overall (2,522 OOF)", "Acc: 80.7%", "mF1: 0.804", "<2.5 pt MAE", "5-Fold CV"] },
+            {
+              hl: true,
+              c: [
+                "Overall (2,522 OOF)",
+                "Acc: 80.7%",
+                "mF1: 0.804",
+                "<2.5 pt MAE",
+                "5-Fold CV",
+              ],
+            },
           ]}
         />
       </>
@@ -1099,7 +1123,11 @@ const exitNative = () => {
     document.exitFullscreen?.()?.catch?.(() => {});
 };
 
-export default function SatelliteSlidesModal({ open, onClose, embedded = false }) {
+export default function SatelliteSlidesModal({
+  open,
+  onClose,
+  embedded = false,
+}) {
   const [i, setI] = useState(0);
   const [full, setFull] = useState(false);
   const [notes, setNotes] = useState(false);
@@ -1241,7 +1269,11 @@ export default function SatelliteSlidesModal({ open, onClose, embedded = false }
   const slideContent = (
     <div
       ref={box}
-      className={"wsm-modal" + (embedded ? " wsm-embedded" : "") + (full ? " is-full" : "")}
+      className={
+        "wsm-modal" +
+        (embedded ? " wsm-embedded" : "") +
+        (full ? " is-full" : "")
+      }
       role="dialog"
       aria-modal={!embedded}
       aria-label="World Satellite Monitor presentation"
@@ -1249,165 +1281,165 @@ export default function SatelliteSlidesModal({ open, onClose, embedded = false }
     >
       <style>{css}</style>
 
-        <div className="wsm-progress" aria-hidden="true">
-          <div style={{ width: `${(i / last) * 100}%` }} />
+      <div className="wsm-progress" aria-hidden="true">
+        <div style={{ width: `${(i / last) * 100}%` }} />
+      </div>
+
+      <header className="wsm-bar">
+        <div className="wsm-bar-title">
+          <span className="wsm-badge">Presentation</span>
+          <span>World Satellite Monitor</span>
+        </div>
+        <div className="wsm-bar-actions">
+          <button
+            onClick={() => setNotes((v) => !v)}
+            className={`wsm-btn ${notes ? "active" : ""}`}
+            aria-pressed={notes}
+            title="Speaker notes and theory (N)"
+          >
+            <svg
+              width="13"
+              height="13"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M4 5h16M4 12h16M4 19h10" />
+            </svg>
+            <span>Notes</span>
+          </button>
+          <button
+            onClick={toggleFull}
+            className={`wsm-btn ${full ? "active" : ""}`}
+            aria-label="Toggle full screen"
+            title={full ? "Exit full screen (F)" : "Full screen (F)"}
+          >
+            <svg
+              width="13"
+              height="13"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              {full ? (
+                <path d="M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3" />
+              ) : (
+                <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7" />
+              )}
+            </svg>
+            <span>{full ? "Exit full screen" : "Full screen"}</span>
+          </button>
+          {(!embedded || full || onClose) && (
+            <button
+              onClick={() => {
+                if (full) toggleFull();
+                else onClose?.();
+              }}
+              className="wsm-btn wsm-btn-close"
+              aria-label={full ? "Exit full screen" : "Close presentation"}
+              title={full ? "Exit full screen (F or Esc)" : "Close (Esc)"}
+            >
+              <svg
+                width="13"
+                height="13"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M18 6L6 18M6 6l12 12" />
+              </svg>
+              <span>{full ? "Exit Full" : "Close"}</span>
+            </button>
+          )}
+        </div>
+      </header>
+
+      <main
+        className="wsm-stage"
+        onMouseMove={onMove}
+        onTouchStart={onTouchStart}
+        onTouchEnd={onTouchEnd}
+      >
+        <div className="wsm-bg" key={"bg" + i}>
+          {s.bg && <Photo k={s.bg} className="wsm-bgimg" eager quiet />}
+        </div>
+        <div className="wsm-veil" />
+
+        <div className="wsm-pane" key={"pane" + i}>
+          <section className={"wsm-slide" + (isTitle ? " is-title" : "")}>
+            {isTitle ? (
+              <div className="wsm-title-wrap">
+                <div>
+                  <h2>{s.title}</h2>
+                  <p className="wsm-lead">{s.body}</p>
+                  <div className="wsm-chips">
+                    {s.foot.map((f) => (
+                      <span key={f}>{f}</span>
+                    ))}
+                  </div>
+                </div>
+                <Orbit />
+              </div>
+            ) : (
+              <>
+                <h2>{s.title}</h2>
+                {s.fig ? (
+                  <div className="wsm-split">
+                    <div className="wsm-split-main">{s.render()}</div>
+                    <Fig k={s.fig.k} cap={s.fig.cap} />
+                  </div>
+                ) : (
+                  s.render()
+                )}
+              </>
+            )}
+          </section>
         </div>
 
-        <header className="wsm-bar">
-          <div className="wsm-bar-title">
-            <span className="wsm-badge">Presentation</span>
-            <span>World Satellite Monitor</span>
-          </div>
-          <div className="wsm-bar-actions">
-            <button
-              onClick={() => setNotes((v) => !v)}
-              className={`wsm-btn ${notes ? "active" : ""}`}
-              aria-pressed={notes}
-              title="Speaker notes and theory (N)"
-            >
-              <svg
-                width="13"
-                height="13"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2.2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M4 5h16M4 12h16M4 19h10" />
-              </svg>
-              <span>Notes</span>
-            </button>
-            <button
-              onClick={toggleFull}
-              className={`wsm-btn ${full ? "active" : ""}`}
-              aria-label="Toggle full screen"
-              title={full ? "Exit full screen (F)" : "Full screen (F)"}
-            >
-              <svg
-                width="13"
-                height="13"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2.2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                {full ? (
-                  <path d="M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3" />
-                ) : (
-                  <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7" />
-                )}
-              </svg>
-              <span>{full ? "Exit full screen" : "Full screen"}</span>
-            </button>
-            {(!embedded || full || onClose) && (
-              <button
-                onClick={() => {
-                  if (full) toggleFull();
-                  else onClose?.();
-                }}
-                className="wsm-btn wsm-btn-close"
-                aria-label={full ? "Exit full screen" : "Close presentation"}
-                title={full ? "Exit full screen (F or Esc)" : "Close (Esc)"}
-              >
-                <svg
-                  width="13"
-                  height="13"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2.2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M18 6L6 18M6 6l12 12" />
-                </svg>
-                <span>{full ? "Exit Full" : "Close"}</span>
-              </button>
-            )}
-          </div>
-        </header>
+        <div className="wsm-scanline" key={"scan" + i} aria-hidden="true" />
 
-        <main
-          className="wsm-stage"
-          onMouseMove={onMove}
-          onTouchStart={onTouchStart}
-          onTouchEnd={onTouchEnd}
+        <aside
+          className={"wsm-notes" + (notes ? " open" : "")}
+          aria-hidden={!notes}
         >
-          <div className="wsm-bg" key={"bg" + i}>
-            {s.bg && <Photo k={s.bg} className="wsm-bgimg" eager quiet />}
-          </div>
-          <div className="wsm-veil" />
+          <h5>Speaker notes and theory</h5>
+          <p>{s.notes}</p>
+        </aside>
+      </main>
 
-          <div className="wsm-pane" key={"pane" + i}>
-            <section className={"wsm-slide" + (isTitle ? " is-title" : "")}>
-              {isTitle ? (
-                <div className="wsm-title-wrap">
-                  <div>
-                    <h2>{s.title}</h2>
-                    <p className="wsm-lead">{s.body}</p>
-                    <div className="wsm-chips">
-                      {s.foot.map((f) => (
-                        <span key={f}>{f}</span>
-                      ))}
-                    </div>
-                  </div>
-                  <Orbit />
-                </div>
-              ) : (
-                <>
-                  <h2>{s.title}</h2>
-                  {s.fig ? (
-                    <div className="wsm-split">
-                      <div className="wsm-split-main">{s.render()}</div>
-                      <Fig k={s.fig.k} cap={s.fig.cap} />
-                    </div>
-                  ) : (
-                    s.render()
-                  )}
-                </>
-              )}
-            </section>
-          </div>
-
-          <div className="wsm-scanline" key={"scan" + i} aria-hidden="true" />
-
-          <aside
-            className={"wsm-notes" + (notes ? " open" : "")}
-            aria-hidden={!notes}
-          >
-            <h5>Speaker notes and theory</h5>
-            <p>{s.notes}</p>
-          </aside>
-        </main>
-
-        <footer className="wsm-nav">
-          <button onClick={() => go(-1)} disabled={i === 0}>
-            Previous
-          </button>
-          <div className="wsm-dots">
-            {slides.map((_, k) => (
-              <button
-                key={k}
-                className={k === i ? "on" : ""}
-                onClick={() => setI(k)}
-                aria-label={`Go to slide ${k + 1}`}
-                aria-current={k === i}
-              />
-            ))}
-          </div>
-          <span className="wsm-count">
-            {i + 1} / {slides.length}
-          </span>
-          <button onClick={() => go(1)} disabled={i === last}>
-            Next
-          </button>
-        </footer>
-      </div>
-    );
+      <footer className="wsm-nav">
+        <button onClick={() => go(-1)} disabled={i === 0}>
+          Previous
+        </button>
+        <div className="wsm-dots">
+          {slides.map((_, k) => (
+            <button
+              key={k}
+              className={k === i ? "on" : ""}
+              onClick={() => setI(k)}
+              aria-label={`Go to slide ${k + 1}`}
+              aria-current={k === i}
+            />
+          ))}
+        </div>
+        <span className="wsm-count">
+          {i + 1} / {slides.length}
+        </span>
+        <button onClick={() => go(1)} disabled={i === last}>
+          Next
+        </button>
+      </footer>
+    </div>
+  );
 
   if (embedded && !full) {
     return slideContent;
