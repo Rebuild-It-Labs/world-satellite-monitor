@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState, lazy, Suspense } from 'react';
 import InteractiveGlobe from './components/InteractiveGlobe.jsx';
 import DetailsPanel from './components/DetailsPanel.jsx';
 import PortDetailsPanel from './components/PortDetailsPanel.jsx';
@@ -9,17 +9,26 @@ import BootScreen from './components/BootScreen.jsx';
 import ScreenFX from './components/ui/ScreenFX.jsx';
 import ErrorBoundary from './components/ErrorBoundary.jsx';
 import SatelliteTrackerCard from './components/panel/SatelliteTrackerCard.jsx';
+import ThemeSwitcher from './components/ThemeSwitcher.jsx';
+import ThemeParticles from './components/ThemeParticles.jsx';
+import ThemeSplashModal from './components/ThemeSplashModal.jsx';
+import { useTheme } from './context/ThemeContext.jsx';
 import { useMonitoringData } from './hooks/useMonitoringData.js';
 import { useMediaQuery } from './hooks/useMediaQuery.js';
+
+// Lazy-loaded on-demand modal to keep initial website load lightweight
+const DocumentationHubModal = lazy(() => import('./components/DocumentationHubModal.jsx'));
 
 const MIN_BOOT_MS = 1500;
 
 export default function App() {
+  const { currentTheme, splashVisible, setSplashVisible } = useTheme();
   const { status, data, error } = useMonitoringData();
   const [selectedId, setSelectedId] = useState(null);
   const [selectedVessel, setSelectedVessel] = useState(null);
   const [selectedLandpoint, setSelectedLandpoint] = useState(null);
   const [maritimePanelOpen, setMaritimePanelOpen] = useState(false);
+  const [docsOpen, setDocsOpen] = useState(false);
   const [recenterToken, setRecenterToken] = useState(0);
   const [stages, setStages] = useState({ data: false, geo: false, texture: false });
   const [bootDelayDone, setBootDelayDone] = useState(false);
@@ -161,10 +170,33 @@ export default function App() {
 
   return (
     <div className="relative h-dvh w-screen overflow-hidden bg-black font-body text-white">
-      {/* 3D layer */}
-      <div className="absolute inset-0 z-0">
+      {/* Dynamic Themed Ambient Particles (Candles, Energy, Webs, Petals, Banknotes) */}
+      <ThemeParticles isMobile={isMobile} />
+
+      {/* Top-Right Theming Switcher */}
+      <ThemeSwitcher />
+
+      {/* Center Theme Opening Splash Portal (with Audio & Sticker) */}
+      <ThemeSplashModal
+        activeTheme={currentTheme}
+        isVisible={splashVisible}
+        onDone={() => setSplashVisible(false)}
+      />
+
+      {/* Dedicated Documentation, Architecture Sketchbook & Slides Hub Page (Offloaded until requested) */}
+      {docsOpen && (
+        <Suspense fallback={null}>
+          <DocumentationHubModal
+            open={docsOpen}
+            onClose={() => setDocsOpen(false)}
+          />
+        </Suspense>
+      )}
+
+      {/* 3D layer (unmounted/hidden when docs page is active to eliminate GPU/CPU lag) */}
+      <div className={`absolute inset-0 z-0 ${docsOpen ? 'hidden' : ''}`}>
         <ErrorBoundary>
-          {data && (
+          {data && !docsOpen && (
             <InteractiveGlobe
               locations={data.locations}
               selectedId={selectedId}
@@ -213,6 +245,7 @@ export default function App() {
             satelliteTrackerOpen={satelliteTrackerOpen}
             lowDataMode={lowDataMode}
             onToggleLowData={handleToggleLowData}
+            onOpenDocs={() => setDocsOpen(true)}
             onRecenter={() => {
               setFocusTargetOverride(null);
               setRecenterToken((t) => t + 1);

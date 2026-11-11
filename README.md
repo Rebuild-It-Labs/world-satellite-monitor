@@ -92,6 +92,65 @@ Run [`satelliteCode.py`](./satelliteCode.py) or [`world-satellite-monitor.ipynb`
 
 ---
 
+## 🎨 Themes Engine
+
+World Satellite Monitor features an extensible, zero-reload multi-theme engine supporting 6 pop-culture-inspired aesthetics:
+
+| Theme | Icon | Palette & Inspiration | Ambient Particle Effect |
+| :--- | :---: | :--- | :--- |
+| **Mission Control** | 🛰️ | Cyber-forest emerald (`#00ff88`), cyber cyan & HUD black | Clean deep space |
+| **Harry Potter** | ⚡ | Gryffindor crimson (`#9e1b32`), parchment & antique gold (`#d4af37`) | Floating warm candle embers |
+| **Dr Doom** | 👑 | Monarch armor titanium, Latverian gold & cosmic green (`#00ff77`) | Arcane green electrical sparks |
+| **Spider-Man** | 🕷️ | Queens scarlet red (`#e21b24`), suit blue (`#0066cc`) & web white | Drifting spider-web strands |
+| **Beauty & the Beast** | 🌹 | Midnight velvet plum (`#100619`), enchanted rose red & gilded gold | Fluttering rose petals |
+| **Money Heist** | 🎭 | Royal Mint charcoal (`#0e0e0e`), Dalí jumpsuit crimson & minted gold | Falling banknotes & gold confetti |
+
+### How It Works
+
+1. **Pre-paint Theme Injection**: An inline script in `index.html` resolves the active theme from the `?theme=` URL parameter or `localStorage("wsm-theme")` and sets `<html data-theme="...">` before first paint, completely preventing theme flash (FOUC).
+2. **CSS Variables Architecture**: Each theme exposes custom properties (`--bg`, `--surface`, `--primary`, `--secondary`, `--accent`, `--border`, `--glow`, `--globe-atmosphere`, `--globe-ocean`, `--globe-land`, `--globe-marker`).
+3. **Dynamic WebGL / Three.js Integration**: The 3D Earth globe (`GlobeBase.jsx`, `CountryBorders.jsx`, `PulsarMarker.jsx`) reacts live to theme switches without reloading textures or restarting WebGL contexts.
+4. **Accessible Theme Switcher**: Located in the top-right corner with thumbnail preview cards, color swatches, keyboard navigation (`Arrow keys`, `Enter`, `Esc`), WCAG AA contrast, and a particles on/off toggle.
+5. **Subpath & GitHub Pages Safety**: All theme asset paths are resolved using `import.meta.env.BASE_URL` (never hardcoded absolute `/theme/...`).
+
+### Adding a New Theme
+
+Adding a new theme requires only three steps:
+
+1. **Add Theme Assets** to `frontend/public/theme/<folder_name>/`:
+   - `preview.webp` (600×340 px, ≤ 50 KB)
+   - `bg.webp` (1920×1080 px, ≤ 300 KB)
+   - `bg-mobile.webp` (828×1792 px, ≤ 150 KB)
+   - `texture.webp` (256×256 px tileable, ≤ 50 KB)
+   - `emblem.svg` (vector icon, ≤ 10 KB)
+   - `favicon.svg` (vector favicon, ≤ 10 KB)
+
+2. **Register the Theme** in `frontend/src/themes/themes.config.js`:
+   ```javascript
+   {
+     id: "my-theme",
+     label: "My Theme",
+     icon: "✨",
+     description: "Short description...",
+     folder: "my_theme",
+     palette: { primary: "#...", secondary: "#...", ... },
+     globe: { atmosphere: "#...", ocean: "#...", land: "#...", marker: "#..." },
+     effect: "candles" // 'candles' | 'energy' | 'webs' | 'petals' | 'banknotes' | 'none'
+   }
+   ```
+
+3. **Define CSS Variables** in `frontend/src/themes/theme.css`:
+   ```css
+   :root[data-theme="my-theme"] {
+     --bg: #...;
+     --primary: #...;
+     --surface: rgba(...);
+     --border: rgba(...);
+   }
+   ```
+
+---
+
 ## 📄 License
 
 MIT License. Developed for global Earth observation and environmental monitoring.

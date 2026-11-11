@@ -32,7 +32,15 @@ export default function BootScreen({ visible, stages }) {
             <ul className="space-y-2 font-mono text-[11px] tracking-[0.15em]">
               {STEPS.map((s) => (
                 <li key={s.key} className={`flex items-center gap-2 ${stages[s.key] ? 'text-neon' : 'text-white/40'}`}>
-                  <span className="w-4">{stages[s.key] ? '✔' : <span className="animate-blink">▸</span>}</span>
+                  <span className="w-4 flex items-center justify-center font-bold">
+                    {stages[s.key] ? (
+                      <svg className="h-3 w-3 text-neon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                        <polyline points="20 6 9 17 4 12" />
+                      </svg>
+                    ) : (
+                      <span className="animate-blink text-[10px]">&gt;</span>
+                    )}
+                  </span>
                   {s.text}
                 </li>
               ))}

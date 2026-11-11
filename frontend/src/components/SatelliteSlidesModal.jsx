@@ -3,31 +3,34 @@ import { createPortal } from "react-dom";
 
 /* =====================================================================
    IMAGES
-   Files live in  public/satelliteSlideImages/  and are served from
-   /satelliteSlideImages/<file>.  Rename the values below to match the
-   files you actually have. A missing file never breaks a slide: the
-   photo area falls back to a dark gradient.
+   Connected dynamically to real run folders in public/coordinates/ and
+   public/assets/earth/. Uses import.meta.env.BASE_URL for GitHub Pages.
    ===================================================================== */
-const BASE = "/satelliteSlideImages/";
+const getAssetUrl = (file) => {
+  const base = import.meta.env.BASE_URL || "./";
+  const cleanBase = base.endsWith("/") ? base : `${base}/`;
+  return `${cleanBase}${file}`;
+};
+
 const IMG = {
-  hero: "earth-orbit.jpg",
-  night: "earth-night.jpg",
-  s2: "sentinel-2.jpg",
-  grid: "satellite-grid.jpg",
-  forest: "forest-edge.jpg",
-  city: "urban-sprawl.jpg",
-  wetland: "wetland-mangrove.jpg",
-  farm: "farmland-punjab.jpg",
-  mine: "open-pit-mine.jpg",
-  nusantara: "nusantara.jpg",
-  phagwara: "phagwara.jpg",
-  hasdeo: "hasdeo-arand.jpg",
-  nusA: "nusantara-2021.jpg",
-  nusB: "nusantara-2026.jpg",
-  phgA: "phagwara-2016.jpg",
-  phgB: "phagwara-2026.jpg",
-  hasA: "hasdeo-1990.jpg",
-  hasB: "hasdeo-2026.jpg",
+  hero: "assets/earth/earth-blue-marble.jpg",
+  night: "assets/earth/earth-night.jpg",
+  s2: "coordinates/-0.97306_116.70861_500ac/5y_to_now_compare.png",
+  grid: "coordinates/-16.90846_-62.63432_500ac/5y_to_now_heatmap.png",
+  forest: "coordinates/-16.90846_-62.63432_500ac/5y_to_now_compare.png",
+  city: "coordinates/31.25293_75.70447_200ac/10y_to_now_compare.png",
+  wetland: "coordinates/-0.97306_116.70861_500ac/now_landcover.png",
+  farm: "coordinates/31.25293_75.70447_200ac/5y_to_now_compare.png",
+  mine: "coordinates/17.24046_80.21990_750ac/10y_to_now_compare.png",
+  nusantara: "coordinates/-0.97306_116.70861_500ac/now_landcover.png",
+  phagwara: "coordinates/31.25293_75.70447_200ac/now_landcover.png",
+  hasdeo: "coordinates/17.24046_80.21990_750ac/now_landcover.png",
+  nusA: "coordinates/-0.97306_116.70861_500ac/5y_2021-10-24.png",
+  nusB: "coordinates/-0.97306_116.70861_500ac/now_2026-10-18.png",
+  phgA: "coordinates/31.25293_75.70447_200ac/10y_2016-11-04.png",
+  phgB: "coordinates/31.25293_75.70447_200ac/now_2026-11-04.png",
+  hasA: "coordinates/17.24046_80.21990_750ac/10y_2016-10-16.png",
+  hasB: "coordinates/17.24046_80.21990_750ac/now_2026-10-14.png",
 };
 
 const prefersReduced = () =>
@@ -83,7 +86,7 @@ const Photo = ({
     <div className={`wsm-photo ${state} ${className}`}>
       {state !== "error" && (
         <img
-          src={BASE + file}
+          src={getAssetUrl(file)}
           alt={alt}
           loading={eager ? "eager" : "lazy"}
           draggable={false}
@@ -793,22 +796,22 @@ const slides = [
       <>
         <Stats
           items={[
-            [93.85, 2, "%", "pixel accuracy"],
-            [88.28, 2, "%", "mean IoU"],
-            [93.73, 2, "%", "mean F1"],
+            [80.7, 1, "%", "pixel accuracy"],
+            [88.2, 1, "%", "peak class F1 (Water)"],
+            [80.4, 1, "%", "mean F1 score"],
           ]}
         />
         <Table
-          head={["Class", "Precision", "Recall", "F1", "IoU"]}
+          head={["Class", "IoU", "F1", "Area MAE (pts)", "Assessment"]}
           rows={[
-            { c: ["Background", 94.2, 93.5, 93.8, 88.4] },
-            { c: ["Building", 94.6, 92.3, 93.5, 87.7] },
-            { c: ["Road", 92.8, 91.4, 92.1, 85.4] },
-            { c: ["Water", 98.6, 97.8, 98.2, 96.5] },
-            { c: ["Barren", 91.5, 89.1, 90.3, 82.3] },
-            { c: ["Forest", 95.1, 94.3, 94.7, 89.9] },
-            { c: ["Agriculture", 93.9, 93.1, 93.5, 87.8] },
-            { hl: true, c: ["Mean", 94.4, 93.1, 93.7, 88.3] },
+            { c: ["Water", "0.789", "0.882", "0.782 pts", "Peak fidelity"], hl: true },
+            { c: ["Agriculture", "0.780", "0.876", "2.965 pts", "High fidelity"], hl: true },
+            { c: ["Forest", "0.743", "0.852", "2.675 pts", "High fidelity"], hl: true },
+            { c: ["Road", "0.654", "0.791", "1.090 pts", "Nominal"] },
+            { c: ["Background", "0.622", "0.767", "6.582 pts", "Nominal"] },
+            { c: ["Building", "0.602", "0.751", "1.784 pts", "Nominal"] },
+            { c: ["Barren", "0.545", "0.706", "2.203 pts", "Nominal"] },
+            { hl: true, c: ["Overall (2,522 OOF)", "Acc: 80.7%", "mF1: 0.804", "<2.5 pt MAE", "5-Fold CV"] },
           ]}
         />
       </>
@@ -1068,7 +1071,7 @@ const slides = [
           <Bullets
             items={[
               "Autonomous pipeline from harvest to publishing",
-              "10 m → 2.5 m with 88.28% mIoU on 7 classes",
+              "10 m → 2.5 m with 80.7% pixel accuracy (80.4% mF1, up to 88.2% class fidelity) on 7 classes",
               "Confidence gating suppresses false change",
             ]}
           />
@@ -1096,7 +1099,7 @@ const exitNative = () => {
     document.exitFullscreen?.()?.catch?.(() => {});
 };
 
-export default function SatelliteSlidesModal({ open, onClose }) {
+export default function SatelliteSlidesModal({ open, onClose, embedded = false }) {
   const [i, setI] = useState(0);
   const [full, setFull] = useState(false);
   const [notes, setNotes] = useState(false);
@@ -1128,22 +1131,27 @@ export default function SatelliteSlidesModal({ open, onClose }) {
     }
   }, []);
 
-  // Reset to the first slide only when the modal opens
+  // Reset to the first slide only when modal transitions from closed to open
+  const wasOpenRef = useRef(false);
   useEffect(() => {
-    if (open) {
+    if (open && !wasOpenRef.current && !embedded) {
       setI(0);
       setNotes(false);
     }
-  }, [open]);
+    wasOpenRef.current = open;
+  }, [open, embedded]);
 
   // Preload the next slide's background
   useEffect(() => {
     if (!open) return;
-    const nxt = slides[i + 1];
-    if (nxt?.bg) {
-      const im = new Image();
-      im.src = BASE + IMG[nxt.bg];
-    }
+    try {
+      const nxt = slides[i + 1];
+      if (nxt?.bg) {
+        const file = IMG[nxt.bg] || nxt.bg;
+        const im = new Image();
+        im.src = getAssetUrl(file);
+      }
+    } catch {}
   }, [open, i]);
 
   // Keyboard navigation and body scroll lock
@@ -1185,16 +1193,22 @@ export default function SatelliteSlidesModal({ open, onClose }) {
 
     window.addEventListener("keydown", onKey);
     document.addEventListener("fullscreenchange", onFs);
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
+
+    let prevOverflow = "";
+    if (!embedded || full) {
+      prevOverflow = document.body.style.overflow;
+      document.body.style.overflow = "hidden";
+    }
 
     return () => {
       window.removeEventListener("keydown", onKey);
       document.removeEventListener("fullscreenchange", onFs);
-      document.body.style.overflow = prev;
+      if (!embedded || full) {
+        document.body.style.overflow = prevOverflow;
+      }
       exitNative();
     };
-  }, [open, toggleFull, last]);
+  }, [open, embedded, full, toggleFull, last]);
 
   // Subtle parallax on the background photo (no re-render)
   const onMove = (e) => {
@@ -1224,20 +1238,16 @@ export default function SatelliteSlidesModal({ open, onClose }) {
   const s = slides[i];
   const isTitle = s.kind === "title";
 
-  const modalNode = (
+  const slideContent = (
     <div
-      className={"wsm-backdrop" + (full ? " is-full" : "")}
-      onClick={onClose}
+      ref={box}
+      className={"wsm-modal" + (embedded ? " wsm-embedded" : "") + (full ? " is-full" : "")}
+      role="dialog"
+      aria-modal={!embedded}
+      aria-label="World Satellite Monitor presentation"
+      onClick={(e) => e.stopPropagation()}
     >
-      <div
-        ref={box}
-        className={"wsm-modal" + (full ? " is-full" : "")}
-        role="dialog"
-        aria-modal="true"
-        aria-label="World Satellite Monitor presentation"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <style>{css}</style>
+      <style>{css}</style>
 
         <div className="wsm-progress" aria-hidden="true">
           <div style={{ width: `${(i / last) * 100}%` }} />
@@ -1293,26 +1303,31 @@ export default function SatelliteSlidesModal({ open, onClose }) {
               </svg>
               <span>{full ? "Exit full screen" : "Full screen"}</span>
             </button>
-            <button
-              onClick={onClose}
-              className="wsm-btn wsm-btn-close"
-              aria-label="Close presentation"
-              title="Close (Esc)"
-            >
-              <svg
-                width="13"
-                height="13"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2.2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
+            {(!embedded || full || onClose) && (
+              <button
+                onClick={() => {
+                  if (full) toggleFull();
+                  else onClose?.();
+                }}
+                className="wsm-btn wsm-btn-close"
+                aria-label={full ? "Exit full screen" : "Close presentation"}
+                title={full ? "Exit full screen (F or Esc)" : "Close (Esc)"}
               >
-                <path d="M18 6L6 18M6 6l12 12" />
-              </svg>
-              <span>Close</span>
-            </button>
+                <svg
+                  width="13"
+                  height="13"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M18 6L6 18M6 6l12 12" />
+                </svg>
+                <span>{full ? "Exit Full" : "Close"}</span>
+              </button>
+            )}
           </div>
         </header>
 
@@ -1392,6 +1407,18 @@ export default function SatelliteSlidesModal({ open, onClose }) {
           </button>
         </footer>
       </div>
+    );
+
+  if (embedded && !full) {
+    return slideContent;
+  }
+
+  const modalNode = (
+    <div
+      className={"wsm-backdrop" + (full ? " is-full" : "")}
+      onClick={onClose}
+    >
+      {slideContent}
     </div>
   );
 
@@ -1410,6 +1437,7 @@ const css = `
 .wsm-backdrop{position:fixed;inset:0;z-index:99999;background:rgba(3,10,13,.86);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:2vh 2vw}
 .wsm-backdrop.is-full{padding:0 !important}
 .wsm-modal{position:relative;width:min(1240px,96vw);height:min(840px,94vh);background:var(--ink);border-radius:14px;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.7),0 0 0 1px var(--line);transition:width .2s ease,height .2s ease,border-radius .2s ease}
+.wsm-modal.wsm-embedded{width:100% !important;height:100% !important;max-width:100% !important;max-height:100% !important;border-radius:8px !important;box-shadow:none !important}
 .wsm-modal.is-full{position:fixed !important;inset:0 !important;width:100vw !important;height:100vh !important;max-width:100vw !important;max-height:100vh !important;border-radius:0 !important;box-shadow:none !important;z-index:100000 !important}
 
 .wsm-progress{position:absolute;top:0;left:0;right:0;height:3px;z-index:30;background:rgba(233,244,241,.08)}

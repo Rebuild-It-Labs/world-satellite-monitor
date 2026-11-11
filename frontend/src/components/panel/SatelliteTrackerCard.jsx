@@ -58,9 +58,9 @@ export default function SatelliteTrackerCard({
           <button
             onClick={onClose}
             aria-label="Close Satellite Tracker"
-            className="flex h-6 w-6 items-center justify-center rounded border border-white/20 text-white/60 hover:border-white/40 hover:text-white"
+            className="flex h-6 w-6 items-center justify-center rounded border border-white/20 text-white/60 hover:border-white/40 hover:text-white leading-none font-mono text-sm"
           >
-            ✕
+            &times;
           </button>
         </div>
       </div>

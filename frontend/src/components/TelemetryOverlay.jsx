@@ -1,11 +1,12 @@
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import HudCard from "./ui/HudCard.jsx";
 import AnimatedNumber from "./ui/AnimatedNumber.jsx";
 import SignalBars from "./ui/SignalBars.jsx";
 import { useLiveTelemetry } from "../hooks/useLiveTelemetry.js";
 import { fmtClock, fmtNum } from "../lib/format.js";
-import SatelliteSlidesModal from "./SatelliteSlidesModal.jsx";
+import { useTheme } from "../context/ThemeContext.jsx";
+import { getThemeAssetUrl, getRandomThemeQuote } from "../themes/themes.config.js";
 
 const TYPE_STYLE = {
   ALERT: "text-alert-red border-alert-red/40 bg-alert-red/10",
@@ -59,15 +60,43 @@ export default function TelemetryOverlay({
   lowDataMode,
   onToggleLowData,
   onRecenter,
+  onOpenDocs,
 }) {
+  const { currentTheme } = useTheme();
   const { now, vals, feed } = useLiveTelemetry(telemetry);
   const [open, setOpen] = useState(false);
+  const [hudQuote, setHudQuote] = useState(() => getRandomThemeQuote(currentTheme));
   const expanded = !isMobile || open;
   const sys = telemetry.system;
   const nameOf = (id) => locations.find((l) => l.id === id)?.name;
-  // ShowSlides
-  const [showSlides, setShowSlides] = useState(false);
-  const handleCloseSlides = () => setShowSlides(false);
+  const stickerUrl = getThemeAssetUrl(currentTheme.folder, "sticker.png");
+
+  const shuffleQuote = useCallback(() => {
+    if (!currentTheme.quotes?.banners?.length) return;
+    setHudQuote((prev) => {
+      const list = currentTheme.quotes.banners;
+      if (list.length <= 1) return list[0];
+      let next;
+      do {
+        next = list[Math.floor(Math.random() * list.length)];
+      } while (next === prev);
+      return next;
+    });
+  }, [currentTheme]);
+
+  // Set random quote whenever theme changes
+  useEffect(() => {
+    setHudQuote(getRandomThemeQuote(currentTheme));
+  }, [currentTheme.id]);
+
+  // Periodically cycle to another random quote from the theme's pool every 15 seconds
+  useEffect(() => {
+    if (!currentTheme.quotes?.banners?.length) return;
+    const interval = setInterval(() => {
+      shuffleQuote();
+    }, 15000);
+    return () => clearInterval(interval);
+  }, [currentTheme.id, shuffleQuote]);
 
   return (
     <>
@@ -82,13 +111,26 @@ export default function TelemetryOverlay({
         bodyClassName="px-3 py-2.5"
       >
         <div className="flex items-start justify-between gap-2">
-          <div>
-            <h1 className="font-display text-[15px] font-bold leading-none tracking-[0.12em] text-white text-glow">
-              WORLD<span className="text-neon"> SATELLITE</span> MONITOR
-            </h1>
-            <p className="mt-1.5 font-mono text-[9.5px] tracking-[0.2em] text-white/45">
-              GLOBAL AI EARTH OBSERVATION
-            </p>
+          <div className="flex items-center gap-2">
+            {/* Theme Circular Mascot Sticker / Avatar */}
+            <div className="relative h-9 w-9 rounded-full overflow-hidden shrink-0 border border-[var(--primary)]/60 bg-black/60 shadow-[0_0_10px_var(--glow)] flex items-center justify-center p-0.5">
+              <img
+                src={stickerUrl}
+                alt={currentTheme.label}
+                className="h-full w-full rounded-full object-cover"
+                onError={(e) => {
+                  e.currentTarget.src = getThemeAssetUrl(currentTheme.folder, "emblem.svg");
+                }}
+              />
+            </div>
+            <div>
+              <h1 className="font-display text-[14.5px] font-bold leading-none tracking-[0.12em] text-white text-glow">
+                WORLD<span style={{ color: currentTheme.palette.primary }}> SATELLITE</span> MONITOR
+              </h1>
+              <p className="mt-1 font-mono text-[9px] tracking-[0.18em] text-white/50">
+                GLOBAL AI OBSERVATION
+              </p>
+            </div>
           </div>
           <div className="text-right">
             <div className="font-mono text-[13px] tabular-nums text-neon">
@@ -106,7 +148,7 @@ export default function TelemetryOverlay({
             className="mt-2 flex w-full items-center justify-between rounded border border-neon/25 bg-neon/5 px-2 py-1 font-mono text-[10px] tracking-[0.25em] text-neon"
           >
             <span>CONTROLS & TELEMETRY</span>
-            <span>{open ? "▾" : "▸"}</span>
+            <span className="font-mono text-[10px] text-white/50">{open ? "[-]" : "[+]"}</span>
           </button>
         )}
         {meta.dataStatus === "SYNTHETIC_DEMO" ? (
@@ -118,6 +160,29 @@ export default function TelemetryOverlay({
           <div className="mt-2 inline-flex items-center gap-1.5 rounded-sm border border-neon/40 bg-neon/10 px-1.5 py-0.5 font-mono text-[9px] tracking-[0.2em] text-neon">
             <span className="h-1.5 w-1.5 rounded-full bg-neon animate-blink" />{" "}
             LIVE GEE / REBUILD-IT DATA
+          </div>
+        )}
+
+        {/* Dynamic Theme Quote / Lore Line (Theme-only, changes randomly from pool, hidden on default Mission Control) */}
+        {hudQuote && (
+          <div
+            onClick={shuffleQuote}
+            className="mt-2.5 cursor-pointer select-none rounded-md border border-[var(--primary)]/35 bg-[var(--surface-alt)] p-2 backdrop-blur-md shadow-[0_0_12px_var(--glow)] transition-all hover:border-[var(--primary)]/60 active:scale-[0.99]"
+            title="Click to shuffle real dialogue quote ↺"
+          >
+            <div className="flex items-center justify-between text-[9px] font-mono tracking-widest text-[var(--primary)]">
+              <span className="flex items-center gap-1">
+                <span>{currentTheme.icon}</span>
+                <span>{currentTheme.label.toUpperCase()} TRANSMISSION</span>
+              </span>
+              <span className="flex items-center gap-1 opacity-70 text-[8px] hover:opacity-100">
+                <span>↺</span>
+                <span>SHUFFLE</span>
+              </span>
+            </div>
+            <p className="mt-1 text-[10.5px] italic leading-tight text-white/95 font-display">
+              &ldquo;{hudQuote}&rdquo;
+            </p>
           </div>
         )}
       </HudCard>
@@ -135,14 +200,14 @@ export default function TelemetryOverlay({
                 onClick={onOpenSites}
                 className="flex items-center justify-center gap-1.5 rounded border border-cyan-400/50 bg-cyan-500/20 py-1.5 font-bold text-cyan-300 hover:bg-cyan-500/30 transition-all shadow-[0_0_10px_rgba(6,182,212,0.2)]"
               >
-                <span>🛰️</span>
+                <span className="h-1.5 w-1.5 rounded-full bg-cyan-400" />
                 <span>SITES</span>
               </button>
               <button
                 onClick={onOpenMaritime}
                 className="flex items-center justify-center gap-1.5 rounded border border-sky-400/50 bg-sky-500/20 py-1.5 font-bold text-sky-300 hover:bg-sky-500/30 transition-all shadow-[0_0_10px_rgba(14,165,233,0.2)]"
               >
-                <span>🚢</span>
+                <span className="h-1.5 w-1.5 rounded-full bg-sky-400" />
                 <span>MARITIME</span>
               </button>
             </div>
@@ -158,7 +223,7 @@ export default function TelemetryOverlay({
                       : "border-white/10 bg-white/5 text-white/40"
                   }`}
                 >
-                  <span>🚢 SHIPS:</span>
+                  <span>SHIPS:</span>
                   <span>{showShips ? "ON" : "OFF"}</span>
                 </button>
               )}
@@ -172,7 +237,7 @@ export default function TelemetryOverlay({
                       : "border-white/10 bg-white/5 text-white/40"
                   }`}
                 >
-                  <span>⚓ PORTS:</span>
+                  <span>PORTS:</span>
                   <span>{showPorts ? "ON" : "OFF"}</span>
                 </button>
               )}
@@ -186,7 +251,7 @@ export default function TelemetryOverlay({
                       : "border-white/15 bg-white/5 text-white/60 hover:text-white"
                   }`}
                 >
-                  <span>🛰️ SATS</span>
+                  <span>SATS TRACKER</span>
                 </button>
               )}
 
@@ -210,17 +275,24 @@ export default function TelemetryOverlay({
                 onClick={onRecenter}
                 className="mt-2 flex w-full items-center justify-center gap-1.5 rounded border border-neon/40 bg-neon/10 py-1 font-mono text-[10px] tracking-widest text-neon hover:bg-neon/20 transition-all focus-visible:outline-neon"
               >
-                <span>🎯 RECENTER GLOBE</span>
+                <span>RECENTER GLOBE</span>
               </button>
             )}
 
-            {/* Show Slides Button */}
+            {/* Dedicated Documentation & Architecture Hub Page Button */}
             <button
-              onClick={() => setShowSlides(true)}
-              className="mt-2 flex w-full items-center justify-center gap-1.5 rounded border border-amber-400/50 bg-amber-500/15 py-1.5 font-mono text-[10px] font-bold tracking-widest text-amber-300 hover:bg-amber-500/25 transition-all shadow-[0_0_8px_rgba(245,158,11,0.2)] focus-visible:outline-amber-400"
-              title="Open World Satellite Monitor presentation slides"
+              onClick={onOpenDocs}
+              className="mt-2 flex w-full items-center justify-center gap-1.5 rounded-lg border border-[var(--primary)] bg-[var(--primary)]/15 py-2 font-display text-[11px] font-bold tracking-wider text-[var(--text)] hover:bg-[var(--primary)]/25 transition-all shadow-[0_0_12px_var(--border)] focus-visible:outline-[var(--primary)]"
+              title="Open Fullscreen Documentation, Architecture Sketchbook, Pipeline Flow & Presentation Hub"
             >
-              <span>📽️ VIEW PRESENTATION</span>
+              <svg className="h-3.5 w-3.5 text-[var(--primary)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+              </svg>
+              <span>DOCS & SYSTEM HUB</span>
+              <span className="rounded bg-[var(--primary)]/25 px-1 font-mono text-[8.5px] text-[var(--primary)]">
+                HUB
+              </span>
             </button>
 
             {/* Legend */}
@@ -374,12 +446,6 @@ export default function TelemetryOverlay({
         </div>
       )}
       </aside>
-
-      {/* Main presentation modal rendered at the screen root level */}
-      <SatelliteSlidesModal
-        open={showSlides}
-        onClose={handleCloseSlides}
-      />
     </>
   );
 }

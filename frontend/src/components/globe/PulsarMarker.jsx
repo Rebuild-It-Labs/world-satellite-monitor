@@ -5,8 +5,9 @@ import * as THREE from 'three';
 import { latLngToVec3, surfaceQuaternion } from '../../lib/geo.js';
 import { getGlowTexture } from '../../lib/glowTexture.js';
 import { SEVERITY_STYLE } from '../../lib/format.js';
+import { useTheme } from '../../context/ThemeContext.jsx';
 
-const NEON = '#00ff88';
+const DEFAULT_NEON = '#00ff88';
 const CIRCLE_PTS = Array.from({ length: 65 }, (_, i) => {
   const a = (i / 64) * Math.PI * 2;
   return [Math.cos(a) * 0.052, Math.sin(a) * 0.052, 0];
@@ -24,6 +25,8 @@ const BEAM = [
  * All animation is done by mutating refs in useFrame — no React re-renders per frame.
  */
 export default function PulsarMarker({ location, hovered, selected, onHover, onSelect }) {
+  const { currentTheme } = useTheme();
+  const markerColor = currentTheme?.globe?.marker || DEFAULT_NEON;
   const { id, lat, lng, name, severity } = location;
   const pos = useMemo(() => latLngToVec3(lat, lng, 1.0045), [lat, lng]);
   const quat = useMemo(() => surfaceQuaternion(lat, lng), [lat, lng]);
@@ -66,28 +69,28 @@ export default function PulsarMarker({ location, hovered, selected, onHover, onS
 
   return (
     <group position={pos} quaternion={quat} renderOrder={4}>
-      <Line points={BEAM} color={NEON} lineWidth={1} transparent opacity={0.55} depthWrite={false} />
+      <Line points={BEAM} color={markerColor} lineWidth={1} transparent opacity={0.55} depthWrite={false} />
 
       <mesh ref={glow} renderOrder={4}>
         <planeGeometry args={[0.12, 0.12]} />
-        <meshBasicMaterial map={glowTex} color={NEON} transparent depthWrite={false} blending={THREE.AdditiveBlending} toneMapped={false} />
+        <meshBasicMaterial map={glowTex} color={markerColor} transparent depthWrite={false} blending={THREE.AdditiveBlending} toneMapped={false} />
       </mesh>
 
       {[ringA, ringB].map((ref, i) => (
         <mesh key={i} ref={ref} renderOrder={5}>
           <ringGeometry args={[0.0105, 0.0138, 48]} />
-          <meshBasicMaterial color={NEON} transparent depthWrite={false} side={THREE.DoubleSide} blending={THREE.AdditiveBlending} toneMapped={false} />
+          <meshBasicMaterial color={markerColor} transparent depthWrite={false} side={THREE.DoubleSide} blending={THREE.AdditiveBlending} toneMapped={false} />
         </mesh>
       ))}
 
       <mesh ref={core} position={[0, 0, 0.0015]} renderOrder={6}>
         <circleGeometry args={[0.0078, 24]} />
-        <meshBasicMaterial color="#c8ffe2" toneMapped={false} depthWrite={false} />
+        <meshBasicMaterial color="#ffffff" toneMapped={false} depthWrite={false} />
       </mesh>
 
       {selected && (
         <group ref={reticle}>
-          <Line points={CIRCLE_PTS} color={NEON} lineWidth={1.4} dashed dashSize={0.018} gapSize={0.012} transparent opacity={0.9} depthWrite={false} />
+          <Line points={CIRCLE_PTS} color={markerColor} lineWidth={1.4} dashed dashSize={0.018} gapSize={0.012} transparent opacity={0.9} depthWrite={false} />
         </group>
       )}
 
@@ -110,7 +113,15 @@ export default function PulsarMarker({ location, hovered, selected, onHover, onS
 
       {lit && (
         <Html position={[0, 0, 0.02]} center distanceFactor={3.2} zIndexRange={[20, 0]} style={{ pointerEvents: 'none', userSelect: 'none' }}>
-          <div className="no-select pointer-events-none select-none -translate-y-7 whitespace-nowrap rounded border border-neon/30 bg-black/80 px-2 py-0.5 font-mono text-[9px] tracking-wider text-neon shadow-neon backdrop-blur-sm">
+          <div
+            className="no-select pointer-events-none select-none -translate-y-7 whitespace-nowrap rounded border px-2 py-0.5 font-mono text-[9px] tracking-wider backdrop-blur-sm"
+            style={{
+              borderColor: markerColor,
+              backgroundColor: 'rgba(0,0,0,0.85)',
+              color: markerColor,
+              boxShadow: `0 0 10px ${markerColor}40`,
+            }}
+          >
             <span className="font-semibold text-white">{name.toUpperCase()}</span>
             <span className={`ml-1.5 ${sev.text}`}>● {severity}</span>
           </div>

@@ -1,0 +1,324 @@
+/* =====================================================================
+   WORLD SATELLITE MONITOR — DYNAMIC MULTI-THEME ENGINE
+   ===================================================================== */
+
+:root {
+  --radius: 8px;
+  --shadow: 0 12px 40px rgba(0, 0, 0, 0.7);
+  --globe-graticule: rgba(255, 255, 255, 0.15);
+}
+
+/* ---------------------------------------------------------------------
+   0. MISSION CONTROL (Default - Clean, normal, no extra intrusive effects)
+   --------------------------------------------------------------------- */
+:root,
+:root[data-theme="mission-control"] {
+  --bg: #000000;
+  --bg-elevated: #040706;
+  --surface: rgba(12, 20, 17, 0.78);
+  --surface-alt: rgba(10, 16, 14, 0.92);
+  --text: #ffffff;
+  --text-muted: #88a398;
+  --primary: #00ff88;
+  --secondary: #00d8ff;
+  --accent: #ff2e63;
+  --border: rgba(0, 255, 136, 0.22);
+  --glow: 0 0 20px rgba(0, 255, 136, 0.35);
+  --danger: #ff2e63;
+  --success: #00ff88;
+  --warning: #ffb020;
+  --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --globe-atmosphere: #00d8ff;
+  --globe-ocean: #071b28;
+  --globe-land: #00e5ff;
+  --globe-marker: #00ff88;
+  --globe-night-lights: #ffe8a3;
+  --hud: #00ff88;
+  --theme-banner: linear-gradient(90deg, #00ff88, #00d8ff);
+}
+
+/* ---------------------------------------------------------------------
+   1. HARRY POTTER (Antique Gryffindor Parchment & Ornate Gold Magic)
+   --------------------------------------------------------------------- */
+:root[data-theme="harry-potter"] {
+  --bg: #100609;
+  --bg-elevated: #1a0b10;
+  --surface: rgba(30, 12, 18, 0.88);
+  --surface-alt: rgba(42, 16, 25, 0.96);
+  --text: #fef7e5;
+  --text-muted: #d8c29d;
+  --primary: #d4af37;
+  --secondary: #9e1b32;
+  --accent: #f5c85a;
+  --border: rgba(212, 175, 55, 0.45);
+  --glow: 0 0 24px rgba(212, 175, 55, 0.45);
+  --danger: #c82333;
+  --success: #d4af37;
+  --warning: #e0a800;
+  --font-display: "Cinzel Decorative", "Cinzel", "MedievalSharp", Georgia, serif;
+  --font-body: "MedievalSharp", "Plus Jakarta Sans", Georgia, serif;
+  --globe-atmosphere: #d4af37;
+  --globe-ocean: #15090e;
+  --globe-land: #d4af37;
+  --globe-marker: #f5c85a;
+  --globe-night-lights: #ffd269;
+  --hud: #d4af37;
+  --theme-banner: linear-gradient(90deg, #d4af37, #9e1b32, #f5c85a);
+}
+
+/* Harry Potter Ornate Gold Gilded Borders & Parchment Sheen */
+:root[data-theme="harry-potter"] .glass,
+:root[data-theme="harry-potter"] .glass-strong {
+  background: linear-gradient(135deg, rgba(34, 14, 21, 0.9), rgba(18, 7, 12, 0.95)) !important;
+  border: 1.5px solid #d4af37 !important;
+  box-shadow: inset 0 0 15px rgba(212, 175, 55, 0.15), 0 12px 40px rgba(0, 0, 0, 0.85) !important;
+}
+
+:root[data-theme="harry-potter"] .hud-corners::before {
+  background:
+    linear-gradient(#d4af37, #d4af37) top left / 18px 2px no-repeat,
+    linear-gradient(#d4af37, #d4af37) top left / 2px 18px no-repeat,
+    linear-gradient(#d4af37, #d4af37) top right / 18px 2px no-repeat,
+    linear-gradient(#d4af37, #d4af37) top right / 2px 18px no-repeat,
+    linear-gradient(#d4af37, #d4af37) bottom left / 18px 2px no-repeat,
+    linear-gradient(#d4af37, #d4af37) bottom left / 2px 18px no-repeat,
+    linear-gradient(#d4af37, #d4af37) bottom right / 18px 2px no-repeat,
+    linear-gradient(#d4af37, #d4af37) bottom right / 2px 18px no-repeat !important;
+  box-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+}
+
+/* ---------------------------------------------------------------------
+   2. DR DOOM (Titanium Monarch Armor & Cosmic Arcane Green Power)
+   --------------------------------------------------------------------- */
+:root[data-theme="dr-doom"] {
+  --bg: #040d08;
+  --bg-elevated: #0a1710;
+  --surface: rgba(10, 26, 18, 0.88);
+  --surface-alt: rgba(16, 36, 26, 0.96);
+  --text: #f0fdf4;
+  --text-muted: #86ab99;
+  --primary: #00ff77;
+  --secondary: #c5a059;
+  --accent: #39ff14;
+  --border: rgba(0, 255, 119, 0.4);
+  --glow: 0 0 26px rgba(0, 255, 119, 0.45);
+  --danger: #ff2b3d;
+  --success: #00ff77;
+  --warning: #c5a059;
+  --font-display: "Orbitron", "Chakra Petch", sans-serif;
+  --font-body: "Chakra Petch", "Plus Jakarta Sans", sans-serif;
+  --globe-atmosphere: #00ff77;
+  --globe-ocean: #05130b;
+  --globe-land: #00ff99;
+  --globe-marker: #00ff77;
+  --globe-night-lights: #99ffbb;
+  --hud: #00ff77;
+  --theme-banner: linear-gradient(90deg, #00ff77, #c5a059);
+}
+
+/* Dr Doom Titanium Armor Panels & Hex Energy Borders */
+:root[data-theme="dr-doom"] .glass,
+:root[data-theme="dr-doom"] .glass-strong {
+  background: linear-gradient(145deg, rgba(14, 30, 22, 0.92), rgba(6, 16, 11, 0.97)) !important;
+  border: 1.5px solid #00ff77 !important;
+  box-shadow: inset 0 1px 0 rgba(197, 160, 89, 0.4), 0 0 20px rgba(0, 255, 119, 0.25) !important;
+}
+
+:root[data-theme="dr-doom"] .hud-corners::before {
+  background:
+    linear-gradient(#00ff77, #00ff77) top left / 22px 3px no-repeat,
+    linear-gradient(#00ff77, #00ff77) top left / 3px 22px no-repeat,
+    linear-gradient(#c5a059, #c5a059) top right / 22px 3px no-repeat,
+    linear-gradient(#c5a059, #c5a059) top right / 3px 22px no-repeat,
+    linear-gradient(#c5a059, #c5a059) bottom left / 22px 3px no-repeat,
+    linear-gradient(#c5a059, #c5a059) bottom left / 3px 22px no-repeat,
+    linear-gradient(#00ff77, #00ff77) bottom right / 22px 3px no-repeat,
+    linear-gradient(#00ff77, #00ff77) bottom right / 3px 22px no-repeat !important;
+}
+
+/* ---------------------------------------------------------------------
+   3. SPIDER-MAN (Queens Scarlet Red, Web Blue & Comic Halftone Action)
+   --------------------------------------------------------------------- */
+:root[data-theme="spider-man"] {
+  --bg: #060a17;
+  --bg-elevated: #0d152e;
+  --surface: rgba(14, 22, 48, 0.88);
+  --surface-alt: rgba(20, 32, 70, 0.96);
+  --text: #ffffff;
+  --text-muted: #a3b8e0;
+  --primary: #e21b24;
+  --secondary: #0066cc;
+  --accent: #ffffff;
+  --border: rgba(226, 27, 36, 0.5);
+  --glow: 0 0 24px rgba(226, 27, 36, 0.5);
+  --danger: #e21b24;
+  --success: #00d084;
+  --warning: #ffb703;
+  --font-display: "Bangers", "Russo One", "Space Grotesk", sans-serif;
+  --font-body: "Russo One", "Plus Jakarta Sans", sans-serif;
+  --globe-atmosphere: #0088ff;
+  --globe-ocean: #060c20;
+  --globe-land: #e21b24;
+  --globe-marker: #e21b24;
+  --globe-night-lights: #a0c4ff;
+  --hud: #e21b24;
+  --theme-banner: linear-gradient(90deg, #e21b24, #0066cc);
+}
+
+/* Spider-Man Comic Cell Borders & Bold Web Line Edges */
+:root[data-theme="spider-man"] .glass,
+:root[data-theme="spider-man"] .glass-strong {
+  background: linear-gradient(150deg, rgba(16, 26, 56, 0.92), rgba(8, 14, 32, 0.97)) !important;
+  border: 2px solid #e21b24 !important;
+  box-shadow: 4px 4px 0px rgba(0, 102, 204, 0.6), 0 12px 40px rgba(0, 0, 0, 0.85) !important;
+}
+
+:root[data-theme="spider-man"] h1,
+:root[data-theme="spider-man"] h2,
+:root[data-theme="spider-man"] .font-display {
+  letter-spacing: 0.06em !important;
+  text-transform: uppercase !important;
+  text-shadow: 2px 2px 0px #0066cc !important;
+}
+
+/* ---------------------------------------------------------------------
+   4. BEAUTY & THE BEAST (Midnight Velvet Plum, Gilded Gold & Fairytale)
+   --------------------------------------------------------------------- */
+:root[data-theme="beauty-beast"] {
+  --bg: #100518;
+  --bg-elevated: #1a0826;
+  --surface: rgba(28, 10, 42, 0.88);
+  --surface-alt: rgba(40, 16, 60, 0.96);
+  --text: #fff0f6;
+  --text-muted: #caa6d4;
+  --primary: #e02154;
+  --secondary: #dfb15b;
+  --accent: #ff7098;
+  --border: rgba(223, 177, 91, 0.48);
+  --glow: 0 0 24px rgba(224, 33, 84, 0.5);
+  --danger: #e02154;
+  --success: #dfb15b;
+  --warning: #f59e0b;
+  --font-display: "Great Vibes", "Playfair Display", Georgia, serif;
+  --font-body: "Playfair Display", Georgia, serif;
+  --globe-atmosphere: #e02154;
+  --globe-ocean: #13061f;
+  --globe-land: #dfb15b;
+  --globe-marker: #ff7098;
+  --globe-night-lights: #ffd166;
+  --hud: #dfb15b;
+  --theme-banner: linear-gradient(90deg, #e02154, #dfb15b);
+}
+
+/* Beauty & the Beast Baroque Gilded Arches & Velvet Surfaces */
+:root[data-theme="beauty-beast"] .glass,
+:root[data-theme="beauty-beast"] .glass-strong {
+  background: linear-gradient(145deg, rgba(34, 12, 52, 0.92), rgba(16, 6, 26, 0.97)) !important;
+  border: 1.5px solid #dfb15b !important;
+  box-shadow: inset 0 0 20px rgba(224, 33, 84, 0.2), 0 14px 45px rgba(0, 0, 0, 0.88) !important;
+  border-radius: 14px !important;
+}
+
+:root[data-theme="beauty-beast"] .font-display {
+  letter-spacing: 0.04em !important;
+  font-style: italic !important;
+}
+
+/* ---------------------------------------------------------------------
+   5. MONEY HEIST (Royal Mint Charcoal, Dalí Jumpsuit Red & Resistance)
+   --------------------------------------------------------------------- */
+:root[data-theme="money-heist"] {
+  --bg: #0c0c0c;
+  --bg-elevated: #161616;
+  --surface: rgba(24, 24, 24, 0.92);
+  --surface-alt: rgba(34, 34, 34, 0.98);
+  --text: #f4f4f5;
+  --text-muted: #a8a8b2;
+  --primary: #d91424;
+  --secondary: #f5b800;
+  --accent: #f4f4f5;
+  --border: rgba(217, 20, 36, 0.55);
+  --glow: 0 0 22px rgba(217, 20, 36, 0.55);
+  --danger: #d91424;
+  --success: #10b981;
+  --warning: #f5b800;
+  --font-display: "Bebas Neue", "Space Grotesk", sans-serif;
+  --font-body: "Plus Jakarta Sans", ui-sans-serif, sans-serif;
+  --globe-atmosphere: #d91424;
+  --globe-ocean: #101011;
+  --globe-land: #f5b800;
+  --globe-marker: #d91424;
+  --globe-night-lights: #f5b800;
+  --hud: #d91424;
+  --theme-banner: linear-gradient(90deg, #d91424, #f5b800, #111111);
+}
+
+/* Money Heist Stencil Vault Seams & Caution Tape Header Lines */
+:root[data-theme="money-heist"] .glass,
+:root[data-theme="money-heist"] .glass-strong {
+  background: #141414 !important;
+  border: 2px solid #d91424 !important;
+  box-shadow: 0 0 0 1px #f5b800, 0 16px 50px rgba(0, 0, 0, 0.9) !important;
+}
+
+:root[data-theme="money-heist"] .hud-corners::before {
+  background:
+    linear-gradient(#d91424, #d91424) top left / 24px 3px no-repeat,
+    linear-gradient(#d91424, #d91424) top left / 3px 24px no-repeat,
+    linear-gradient(#f5b800, #f5b800) top right / 24px 3px no-repeat,
+    linear-gradient(#f5b800, #f5b800) top right / 3px 24px no-repeat,
+    linear-gradient(#f5b800, #f5b800) bottom left / 24px 3px no-repeat,
+    linear-gradient(#f5b800, #f5b800) bottom left / 3px 24px no-repeat,
+    linear-gradient(#d91424, #d91424) bottom right / 24px 3px no-repeat,
+    linear-gradient(#d91424, #d91424) bottom right / 3px 24px no-repeat !important;
+}
+
+:root[data-theme="money-heist"] .font-display,
+:root[data-theme="money-heist"] h1,
+:root[data-theme="money-heist"] h2,
+:root[data-theme="money-heist"] h3 {
+  font-family: "Bebas Neue", sans-serif !important;
+  letter-spacing: 0.12em !important;
+}
+
+/* ---------------------------------------------------------------------
+   Universal dynamic overrides
+   --------------------------------------------------------------------- */
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+}
+
+.font-display {
+  font-family: var(--font-display) !important;
+}
+
+.text-glow {
+  text-shadow: 0 0 10px var(--primary), 0 0 24px var(--border) !important;
+}
+
+/* Custom Themed Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--primary);
+  opacity: 0.6;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Ensure theme stickers & mascots default to circular crop while displaying */
+.theme-avatar,
+.theme-circle,
+img.theme-sticker,
+img[data-theme-img="true"] {
+  border-radius: 9999px !important;
+  object-fit: cover !important;
+  aspect-ratio: 1 / 1;
+}

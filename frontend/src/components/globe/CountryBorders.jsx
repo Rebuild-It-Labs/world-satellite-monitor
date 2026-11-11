@@ -1,7 +1,11 @@
 import { useEffect, useMemo } from 'react';
 import * as THREE from 'three';
+import { useTheme } from '../../context/ThemeContext.jsx';
 
 export default function CountryBorders({ worldSegments, indiaSegments }) {
+  const { currentTheme } = useTheme();
+  const borderColor = currentTheme?.globe?.land || '#00e5ff';
+
   const worldGeo = useMemo(() => {
     if (!worldSegments) return null;
     const g = new THREE.BufferGeometry();
@@ -26,13 +30,13 @@ export default function CountryBorders({ worldSegments, indiaSegments }) {
       {/* Uniform sovereign boundaries across all continents */}
       {worldGeo && (
         <lineSegments geometry={worldGeo}>
-          <lineBasicMaterial color="#00e5ff" transparent opacity={0.35} depthWrite={false} />
+          <lineBasicMaterial color={borderColor} transparent opacity={0.35} depthWrite={false} />
         </lineSegments>
       )}
 
       {indiaGeo && (
         <lineSegments geometry={indiaGeo}>
-          <lineBasicMaterial color="#00e5ff" transparent opacity={0.35} depthWrite={false} />
+          <lineBasicMaterial color={borderColor} transparent opacity={0.35} depthWrite={false} />
         </lineSegments>
       )}
     </group>

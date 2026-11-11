@@ -104,7 +104,7 @@ function Panel({
               MARITIME // AIS TRAFFIC & FLEET
             </div>
             <h2 className="mt-1 font-display text-[22px] font-bold leading-tight text-white flex items-center gap-2">
-              <span className="text-sky-400">🌊</span>
+              <span className="h-2 w-2 rounded-full bg-sky-400 animate-pulse inline-block" />
               <span>OCEAN TRANSIT OPS</span>
             </h2>
             <p className="mt-0.5 text-[12.5px] text-white/55 font-mono">
@@ -131,7 +131,7 @@ function Panel({
               showShips ? 'border-sky-400 bg-sky-500/20 text-sky-300 font-bold' : 'border-white/10 text-white/40'
             }`}
           >
-            🚢 SHIPS: {showShips ? 'ON' : 'OFF'}
+            SHIPS: {showShips ? 'ON' : 'OFF'}
           </button>
 
           <button
@@ -140,7 +140,7 @@ function Panel({
               showPorts ? 'border-amber-400 bg-amber-500/20 text-amber-300 font-bold' : 'border-white/10 text-white/40'
             }`}
           >
-            ⚓ PORTS: {showPorts ? 'ON' : 'OFF'}
+            PORTS: {showPorts ? 'ON' : 'OFF'}
           </button>
 
           <button
@@ -149,7 +149,7 @@ function Panel({
               showRoutes ? 'border-cyan-400 bg-cyan-500/20 text-cyan-300 font-bold' : 'border-white/10 text-white/40'
             }`}
           >
-            🌐 ROUTES: {showRoutes ? 'ON' : 'OFF'}
+            ROUTES: {showRoutes ? 'ON' : 'OFF'}
           </button>
 
           <button
@@ -172,7 +172,7 @@ function Panel({
                 : 'border-transparent text-white/50 hover:text-white'
             }`}
           >
-            🚢 FLEET VESSELS ({fleet.length})
+            FLEET VESSELS ({fleet.length})
           </button>
           <button
             onClick={() => setTab('ports')}
@@ -182,7 +182,7 @@ function Panel({
                 : 'border-transparent text-white/50 hover:text-white'
             }`}
           >
-            ⚓ PORTS & CHOKEPOINTS ({MAJOR_LANDPOINTS.length})
+            PORTS & CHOKEPOINTS ({MAJOR_LANDPOINTS.length})
           </button>
         </div>
       </header>
@@ -205,7 +205,7 @@ function Panel({
               >
                 <div className="flex items-center justify-between">
                   <span className="font-bold text-sky-200 group-hover:text-sky-300 text-sm flex items-center gap-1.5">
-                    <span>🚢</span>
+                    <span className="h-1.5 w-1.5 rounded-full bg-sky-400" />
                     <span>{vsl.name}</span>
                   </span>
                   <span className="text-[10px] text-sky-400 bg-sky-500/10 border border-sky-500/20 px-1.5 py-0.5 rounded">
@@ -218,7 +218,7 @@ function Panel({
                 </div>
                 <div className="mt-1.5 text-[10px] text-white/40 flex items-center gap-1">
                   <span>{vsl.origin}</span>
-                  <span>➔</span>
+                  <span>&rarr;</span>
                   <span>{vsl.destination}</span>
                 </div>
               </button>
@@ -238,7 +238,7 @@ function Panel({
               >
                 <div className="flex items-center justify-between">
                   <span className="font-bold text-amber-200 group-hover:text-amber-300 text-sm flex items-center gap-1.5">
-                    <span>⚓</span>
+                    <span className="h-1.5 w-1.5 rounded-full bg-amber-400" />
                     <span>{lp.name}</span>
                   </span>
                   <span className="text-[10px] text-amber-400 bg-amber-500/10 border border-amber-500/20 px-1.5 py-0.5 rounded">

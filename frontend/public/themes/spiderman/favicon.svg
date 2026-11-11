@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+  <!-- Spider Emblem -->
+  <ellipse cx="50" cy="50" rx="9" ry="14" fill="#e21b24" stroke="#fff" stroke-width="1.5"/>
+  <ellipse cx="50" cy="34" rx="6" ry="6" fill="#e21b24" stroke="#fff" stroke-width="1"/>
+  <!-- Top 4 Legs -->
+  <path d="M46 42 Q 32 30 18 20 Q 24 36 42 46" fill="none" stroke="#e21b24" stroke-width="3" stroke-linecap="round"/>
+  <path d="M54 42 Q 68 30 82 20 Q 76 36 58 46" fill="none" stroke="#e21b24" stroke-width="3" stroke-linecap="round"/>
+  <path d="M46 47 Q 26 40 14 34 Q 22 48 42 50" fill="none" stroke="#e21b24" stroke-width="3" stroke-linecap="round"/>
+  <path d="M54 47 Q 74 40 86 34 Q 78 48 58 50" fill="none" stroke="#e21b24" stroke-width="3" stroke-linecap="round"/>
+  <!-- Bottom 4 Legs -->
+  <path d="M46 54 Q 28 66 22 84 Q 32 72 44 58" fill="none" stroke="#e21b24" stroke-width="3" stroke-linecap="round"/>
+  <path d="M54 54 Q 72 66 78 84 Q 68 72 56 58" fill="none" stroke="#e21b24" stroke-width="3" stroke-linecap="round"/>
+  <path d="M48 60 Q 34 76 30 92 Q 40 80 48 63" fill="none" stroke="#0066cc" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M52 60 Q 66 76 70 92 Q 60 80 52 63" fill="none" stroke="#0066cc" stroke-width="2.5" stroke-linecap="round"/>
+</svg>

@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+  <!-- Spider Web Corner Lattice -->
+  <path d="M 0 0 L 40 0 C 25 15 15 25 0 40 Z" fill="rgba(226,27,36,0.15)"/>
+  <path d="M 0 0 L 38 0 M 0 0 L 0 38" stroke="#e21b24" stroke-width="3"/>
+  <path d="M 0 16 Q 16 16 16 0" stroke="#ffffff" stroke-width="1.5" fill="none"/>
+  <path d="M 0 30 Q 30 30 30 0" stroke="#0066cc" stroke-width="1.8" fill="none"/>
+  <line x1="0" y1="0" x2="24" y2="24" stroke="#ffffff" stroke-width="1.5"/>
+</svg>

@@ -64,7 +64,7 @@ function Panel({ vessel: vsl, onClose, isMobile, isLiveAis }) {
               COMMERCIAL FLEET // {vsl.flag}
             </div>
             <h2 className="mt-1 font-display text-[22px] font-bold leading-tight text-white flex items-center gap-2">
-              <span className="text-sky-400">🚢</span>
+              <span className="h-2 w-2 rounded-full bg-sky-400 animate-pulse shrink-0 inline-block" />
               <span className="truncate">{vsl.name}</span>
             </h2>
             <p className="mt-0.5 text-[13px] text-white/55 font-mono">{vsl.type}</p>
@@ -115,7 +115,7 @@ function Panel({ vessel: vsl, onClose, isMobile, isLiveAis }) {
           <div className="text-[10px] text-sky-400 tracking-wider">CURRENT TRANSIT ROUTE</div>
           <div className="flex items-center justify-between text-sm font-bold text-white pt-1">
             <span className="truncate">{vsl.origin}</span>
-            <span className="text-sky-400 px-2">➔</span>
+            <span className="text-sky-400 px-2">&rarr;</span>
             <span className="truncate text-right">{vsl.destination}</span>
           </div>
           <div className="flex items-center justify-between text-[11px] text-white/60 pt-1 border-t border-white/10">

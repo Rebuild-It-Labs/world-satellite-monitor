@@ -2,6 +2,7 @@ import { Suspense, useEffect, useMemo } from 'react';
 import { useTexture } from '@react-three/drei';
 import * as THREE from 'three';
 import earthTextureUrl from '../../assets/earth-blue-marble.jpg';
+import { useTheme } from '../../context/ThemeContext.jsx';
 
 useTexture.preload(earthTextureUrl);
 
@@ -70,10 +71,19 @@ function FallbackSphere() {
 }
 
 export default function GlobeBase({ onReady }) {
+  const { currentTheme } = useTheme();
+  const atmoColor = currentTheme?.globe?.atmosphere || '#00d8ff';
+
   const atmoUniforms = useMemo(
-    () => ({ uColor: { value: new THREE.Color('#00d8ff') } }),
+    () => ({ uColor: { value: new THREE.Color(atmoColor) } }),
     []
   );
+
+  useEffect(() => {
+    if (atmoUniforms.uColor) {
+      atmoUniforms.uColor.value.set(atmoColor);
+    }
+  }, [atmoColor, atmoUniforms]);
 
   return (
     <group>

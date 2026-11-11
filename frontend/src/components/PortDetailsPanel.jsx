@@ -64,7 +64,7 @@ function Panel({ landpoint: lp, onClose, isMobile }) {
               MARITIME // {lp.type.toUpperCase()}
             </div>
             <h2 className="mt-1 font-display text-[22px] font-bold leading-tight text-white flex items-center gap-2">
-              <span className="text-amber-400">⚓</span>
+              <span className="h-2 w-2 rounded-full bg-amber-400 animate-pulse shrink-0 inline-block" />
               <span className="truncate">{lp.name}</span>
             </h2>
             <p className="mt-0.5 text-[13px] text-white/55 font-mono">{lp.description || 'Global maritime transit node'}</p>

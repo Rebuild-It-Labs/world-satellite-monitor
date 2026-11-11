@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { AnimatePresence, motion, useDragControls } from 'framer-motion';
+import { useTheme } from '../context/ThemeContext.jsx';
 import ImageryViewer from './panel/ImageryViewer.jsx';
 import TrendChart from './panel/TrendChart.jsx';
 import StatTile from './panel/StatTile.jsx';
@@ -27,6 +28,7 @@ export default function DetailsPanel({ location, meta, onClose, isMobile }) {
 }
 
 function Panel({ location: loc, meta, onClose, isMobile }) {
+  const { currentTheme } = useTheme();
   const scrollRef = useRef(null);
   const drag = useDragControls();
   useSmoothScroll(scrollRef);
@@ -241,6 +243,17 @@ function Panel({ location: loc, meta, onClose, isMobile }) {
               <p className="rounded border border-alert-amber/30 bg-alert-amber/5 px-3 py-2 font-mono text-[10px] leading-relaxed tracking-wider text-alert-amber/90">
                 SIMULATED DEMO DATA — statistics, dates and imagery on this panel are procedurally generated placeholders, not real measurements.
               </p>
+            )}
+
+            {/* Dynamic Themed Lore Quote (Only for custom themes) */}
+            {currentTheme.quotes?.panel && (
+              <div className="rounded-md border border-[var(--primary)]/35 bg-[var(--surface-alt)] p-3 text-[11.5px] italic leading-relaxed text-white/95 font-display shadow-[0_0_12px_var(--glow)]">
+                <div className="flex items-center gap-1.5 font-mono text-[9px] uppercase tracking-wider text-[var(--primary)] not-italic mb-1">
+                  <span>{currentTheme.icon}</span>
+                  <span>{currentTheme.label} Transmission</span>
+                </div>
+                &ldquo;{currentTheme.quotes.panel}&rdquo;
+              </div>
             )}
           </motion.div>
         </AnimatePresence>

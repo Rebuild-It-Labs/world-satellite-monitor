@@ -12,9 +12,21 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700&family=Space+Grotesk:wght@600;700&display=swap"
       rel="stylesheet"
     />
+    <script>
+      (function() {
+        try {
+          var params = new URLSearchParams(window.location.search);
+          var theme = params.get('theme') || localStorage.getItem('wsm-theme') || 'mission-control';
+          var valid = ['mission-control', 'harry-potter', 'dr-doom', 'spider-man', 'beauty-beast', 'money-heist'];
+          if (valid.indexOf(theme) !== -1) {
+            document.documentElement.setAttribute('data-theme', theme);
+          }
+        } catch (e) {}
+      })();
+    </script>
     <title>World Satellite Monitor — Global AI Earth Observation</title>
   </head>
   <body class="bg-black">

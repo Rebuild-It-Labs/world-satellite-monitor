@@ -212,7 +212,7 @@ export default function MaritimeLayer({
                   style={{ pointerEvents: 'none', userSelect: 'none' }}
                 >
                   <div className="pointer-events-none select-none whitespace-nowrap rounded border border-cyan-500/40 bg-black/80 px-1.5 py-0.5 font-mono text-[8px] text-cyan-300 shadow-md backdrop-blur-sm">
-                    <span className="font-bold">🚢 {vsl.name}</span> • <span className="text-white/70">{vsl.speedKts} kts</span>
+                    <span className="font-bold">{vsl.name}</span> • <span className="text-white/70">{vsl.speedKts} kts</span>
                   </div>
                 </Html>
               )}

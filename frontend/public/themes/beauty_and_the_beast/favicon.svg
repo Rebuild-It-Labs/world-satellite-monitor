@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+  <!-- Glass Bell Jar Dome -->
+  <path d="M26 80 C 26 30 74 30 74 80 Z" stroke="#dfb15b" stroke-width="2" fill="none" opacity="0.6"/>
+  <rect x="20" y="80" width="60" height="6" rx="2" fill="#dfb15b"/>
+  <!-- Finial -->
+  <circle cx="50" cy="26" r="4" fill="#dfb15b"/>
+  <!-- Enchanted Rose -->
+  <path d="M50 78 C 50 68 47 58 50 50" stroke="#3d6b38" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M50 64 C 44 60 40 64 36 62 C 40 68 48 66 50 64 Z" fill="#3d6b38"/>
+  <path d="M50 56 C 56 52 60 56 64 54 C 60 60 52 58 50 56 Z" fill="#3d6b38"/>
+  <!-- Rose Blossom Petals -->
+  <circle cx="50" cy="46" r="9" fill="#e02154"/>
+  <circle cx="48" cy="44" r="6" fill="#f04374"/>
+  <circle cx="52" cy="43" r="4" fill="#ff7098"/>
+  <!-- Fallen Petal -->
+  <path d="M60 78 C 65 74 68 76 66 79 C 62 80 58 79 60 78 Z" fill="#e02154"/>
+  <!-- Sparkles -->
+  <polygon points="34,38 35,41 38,42 35,43 34,46 33,43 30,42 33,41" fill="#dfb15b"/>
+  <polygon points="66,36 67,39 70,40 67,41 66,44 65,41 62,40 65,39" fill="#dfb15b"/>
+</svg>

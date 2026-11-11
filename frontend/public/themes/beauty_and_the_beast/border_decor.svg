@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+  <!-- Enchanted Baroque Rose Vine Filigree -->
+  <path d="M 0 0 C 25 0 35 15 35 35 C 15 35 0 25 0 0 Z" fill="rgba(224,33,84,0.15)"/>
+  <path d="M 2 2 C 18 2 30 14 30 30" stroke="#dfb15b" stroke-width="2" fill="none"/>
+  <path d="M 2 2 C 10 2 18 10 18 18" stroke="#e02154" stroke-width="1.8" fill="none"/>
+  <circle cx="10" cy="10" r="3" fill="#e02154"/>
+  <circle cx="22" cy="22" r="2.5" fill="#dfb15b"/>
+</svg>

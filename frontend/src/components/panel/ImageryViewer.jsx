@@ -154,7 +154,16 @@ export default function ImageryViewer({ imagery = {}, artifacts, assetBase }) {
               aria-label={playing ? 'Pause sequence' : 'Play sequence'}
               className="absolute right-2 top-2 flex h-7 w-7 items-center justify-center rounded border border-neon/40 bg-black/70 font-mono text-[11px] text-neon hover:bg-neon/15"
             >
-              {playing ? '❚❚' : '▶'}
+              {playing ? (
+                <svg className="h-3 w-3" viewBox="0 0 24 24" fill="currentColor">
+                  <rect x="6" y="4" width="4" height="16" />
+                  <rect x="14" y="4" width="4" height="16" />
+                </svg>
+              ) : (
+                <svg className="h-3 w-3" viewBox="0 0 24 24" fill="currentColor">
+                  <polygon points="5 3 19 12 5 21 5 3" />
+                </svg>
+              )}
             </button>
           </div>
 

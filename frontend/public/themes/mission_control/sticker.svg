@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+  <!-- Sci-fi neon HUD tech brackets -->
+  <path d="M 0 25 L 0 0 L 25 0" stroke="#00ff88" stroke-width="2.5" fill="none"/>
+  <circle cx="2" cy="2" r="2" fill="#00ff88"/>
+  <rect x="0" y="8" width="2" height="6" fill="#00d8ff"/>
+</svg>
